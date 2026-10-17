@@ -56,36 +56,43 @@ Expand the evaluation dataset from 60 to 300 test questions (100 per language). 
 
 | pipeline | overall accuracy | weakest cell (language, condition) | accuracy there | lower | upper | annual cost |
 |---|---|---|---|---|---|---|
-| H | | | | | | |
-| L | | | | | | |
+| H |0.8889 |KK, degraded |0.8000 |0.6269 |0.9050 |$8923.34 |
+| L |0.8056 |RU, degraded |0.7333 |0.5555 |0.8582 |$5400.00 |
 
-Personal-data pages per year sent abroad under H:
+Personal-data pages per year sent abroad under H:217,175
 
 ### 2b. Memo (at most 300 words)
+I recomend adopting Po]ipline L , the self-hosted open vision- language model in Kazakhstan.
+While Pipeline H achieves higher overall accuracy (88.89% vs 80.56%), Pipeline L provides an acceptable accuracy baseline (80.56% overall, 73.33% in its weakest cell). 
+
+Financially, Pipeline L requires only 1 local server ($450/month) to handle the 3,500 daily pages (capacity up to 6,000 pages/day), resulting in an annual cost of $5,400. This saves $3,523.34 per year compared to Pipeline H ($8,923.34/year).
+
+Most importantly, 17% of processed documents (217,175 pages annually) contain personal identification data (PII: individual names and IINs). Transmitting this sensitive personal data to overseas data centers under Pipeline H presents significant legal and regulatory compliance risks under Kazakh data protection legislation. Pipeline L keeps all data strictly on-premise within Kazakhstan, guaranteeing data sovereignty and privacy compliance while remaining significantly more cost-effective.
+
 
 ## Part 3: Explain your own numbers
 
 ### Q1
 
-Number:
-Why (at most 40 words):
+Number:0.96
+Why (at most 40 words): The token ratio ( 2.16) divided by byte ratio (2.25) equals 0.96. Being close to 1.0 indicates that the Kazakh token premium stems primarily from UTF-8 byte expansion (2-byte Cyrillic encoding) rather than tokenizer fragmentation.
 
 ### Q2
 
-Number:
-Why (at most 40 words):
+Number:22.1%
+Why (at most 40 words): Only English is cut, because 640 cl100k tokens expand to 657.5 e5 tokens (>512 limit), whereas RU (320) and KK (190) stay under 512. The cut tail is silently ignored during embedding generation.
 
 ### Q3
 
-Number:
-Why (at most 40 words):
+Number: 81.8%
+Why (at most 40 words): Top-p = 0.8 retains tokens until cumulative probability reaches 80% (Monday and Friday), then renormalizes. Unlike temperature scaling which reshapes all probabilities, top-p dynamically truncates the low-probability tail without altering relative logit ratios.
 
 ### Q4
 
-Number:
-Why (at most 40 words):
+Number: 0 
+Why (at most 40 words): Under penalties (+1 correct, -1 wrong), Model X (75-25=50) and Y (69-19=50) tie (difference 0). Public leaderboards prefer X (75 vs 69) because unpenalized accuracy rewards aggressive guessing over saying "I don't know". 
 
 ### Q5
 
-Number:
-Why (at most 40 words):
+Number:5.35 
+Why (at most 40 words): The model is over-trained relative to Chinchilla's compute-optimal ratio, with about 5.35 times more tokens per parameter. Chinchilla argued that models such as GPT-3 were under-trained and that smaller models trained on more data could achieve better performance for the same compute budget.
